@@ -5,6 +5,9 @@ import { CommonValidators } from 'ng-validator';
 import { ValidatePasswordLength } from '../validators/passwordLength.validator';
 import { ValidatePasswordDigit } from '../validators/passwordDigit.validator';
 import { User } from '../models/user';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/app.states';
+import { LogIn } from '../store/actions/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +20,7 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   user: User = new User();
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService) { }
+  constructor(private store: Store<AppState>, private loginService: LoginService) { }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -26,6 +29,17 @@ export class LoginComponent implements OnInit {
     });
 
   }
+
+  onSubmit(): void {
+    const payload = {
+      email: this.user.email,
+      password: this.user.password
+    };
+    console.log(payload);
+    this.store.dispatch(new LogIn(payload));
+  }
+
+  // original koji radi
 
   onLogin() {
     this.errorMessage = '';
@@ -38,7 +52,7 @@ export class LoginComponent implements OnInit {
         this.user.token = data.token;
       },
         err => {
-        this.errorMessage = err.error;
+          this.errorMessage = err.error;
         });
   }
 
