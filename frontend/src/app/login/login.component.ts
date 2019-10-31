@@ -20,10 +20,12 @@ export class LoginComponent implements OnInit {
   errorMessage: string | null;
   getState: Observable<any>;
   user: User = new User();
+  submitted: boolean | null;
+  inFocus: boolean | null;
 
   constructor(private store: Store<AppState>) {
     this.getState = this.store.select(selectAuthState);
-   }
+  }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
 
     this.getState.subscribe((state) => {
       this.errorMessage = state.errorMessage;
+      this.inFocus = true;
     });
   }
 
@@ -41,7 +44,14 @@ export class LoginComponent implements OnInit {
       email: this.loginForm.get('inputEmail').value.toLowerCase(),
       password: this.loginForm.get('inputPassword').value
     };
-    this.store.dispatch(new LogIn(payload));
+    this.submitted = true;
+    if (this.loginForm.valid) {
+      this.submitted = false;
+      this.store.dispatch(new LogIn(payload));
+    }
+
+
   }
+
 
 }

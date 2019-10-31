@@ -8,5 +8,5 @@ module.exports = function login (req, res) {
     return res.send({ token: 'xyz0987654321', email })
   }
 
-  return res.status(401).send('Login failed.')
+  return res.status(401).send('Incorrect email and/or password.')
 }

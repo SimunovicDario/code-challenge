@@ -1,9 +1,11 @@
 const express = require('express')
 const cors = require('cors')
+const bodyParser = require("body-parser")
 
 const app = express()
-const port = 3000
-const auth = require('./middleware/authorization');
+app.use(bodyParser.json())
+
+const auth = require('./middleware/authorization')
 app.use(cors())
 
 const login = require('./login')
@@ -15,5 +17,4 @@ app.post('/login', login)
 app.use(auth)
 
 app.post('/encoder', auth, encoder)
-
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+module.exports = app

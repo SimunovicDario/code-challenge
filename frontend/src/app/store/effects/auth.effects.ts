@@ -8,7 +8,7 @@ import { tap, map, switchMap, catchError } from 'rxjs/operators';
 import { AuthService } from '../../services/auth.service';
 import {
     AuthActionTypes,
-    LogIn, LogInSuccess, LogInFailure,
+    LogIn, LogInSuccess, LogInFailure, LogOut
 } from '../actions/auth.actions';
 import { AuthGuardService } from 'src/app/services/auth-guard.service';
 import { EncoderService } from 'src/app/services/encoder.service';
@@ -49,5 +49,13 @@ export class AuthEffects {
 
     @Effect({ dispatch: false })
     LogInFailure: Observable<any> = this.actions.pipe(ofType(AuthActionTypes.LOGIN_FAILURE));
+
+    @Effect({ dispatch: false })
+    LogOut: Observable<any> = this.actions.pipe(ofType(AuthActionTypes.LOGOUT),
+        tap((user) => {
+            localStorage.removeItem('token');
+            this.router.navigateByUrl('/prijava');
+        }));
+
 
 }

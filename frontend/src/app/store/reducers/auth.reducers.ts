@@ -33,8 +33,11 @@ export function reducer(state = initialState, action: All): State {
         case AuthActionTypes.LOGIN_FAILURE: {
             return {
                 ...state,
-                errorMessage: action.payload.error.errorMessage
+                errorMessage: action.payload.error
             };
+        }
+        case AuthActionTypes.LOGOUT: {
+            return initialState;
         }
         default: {
             return state;

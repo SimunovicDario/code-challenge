@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppState, selectAuthState, selectEncoderState } from '../store/app.states';
+import { AppState, selectEncoderState, selectAuthState } from '../store/app.states';
 import { Store } from '@ngrx/store';
 import { Encoding } from '../store/actions/encoder.actions';
 import { Observable } from 'rxjs';
@@ -15,9 +15,13 @@ export class EncoderComponent implements OnInit {
   getState: Observable<any>;
   output: string | null;
   getOutput: Observable<any>;
+  submitted: boolean | null;
+  inFocus: boolean | null;
+  isLogOut: Observable<any>;
 
   constructor(private store: Store<AppState>) {
     this.getState = this.store.select(selectEncoderState);
+    this.isLogOut = this.store.select(selectAuthState);
     this.input = '';
    }
 
@@ -25,11 +29,14 @@ export class EncoderComponent implements OnInit {
     this.getState.subscribe((state) => {
       this.errorMessage = state.errorMessage;
       this.output = state.output;
+      this.inFocus = true;
+    });
+    this.isLogOut.subscribe((state) => {
+      this.output = null;
     });
   }
 
   onSubmit(input: string) {
-    console.log(this.output);
     this.store.dispatch(new Encoding(input));
   }
 

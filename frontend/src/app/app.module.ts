@@ -18,6 +18,8 @@ import { AuthEffects } from './store/effects/auth.effects';
 import { TokenInterceptor, ErrorInterceptor } from './services/token.interceptor';
 import { AuthGuardService } from './services/auth-guard.service';
 import { EncoderEffects } from './store/effects/encoder.effects';
+import { AutosizeModule } from 'ngx-autosize';
+
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { EncoderEffects } from './store/effects/encoder.effects';
     ReactiveFormsModule,
     HttpClientModule,
     EffectsModule.forRoot([AuthEffects, EncoderEffects]),
-    StoreModule.forRoot(reducers, {})
+    StoreModule.forRoot(reducers, {}),
+    AutosizeModule
   ],
   providers: [AuthService,
     AuthGuardService,

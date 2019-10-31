@@ -14,7 +14,6 @@ export const initialState: State = {
 export function reducer(state = initialState, action: All): State {
     switch (action.type) {
         case EncodingActionTypes.ENCODING_SUCCESS: {
-            console.log(action.payload.output);
             return {
                 ...state,
                 output: action.payload.output,
