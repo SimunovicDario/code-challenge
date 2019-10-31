@@ -6,10 +6,10 @@ import { AuthGuardService } from './services/auth-guard.service';
 
 
 const routes: Routes = [
-  { path: 'prijava', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'encoder', component: EncoderComponent, canActivate: [AuthGuardService]},
-  { path: '', redirectTo: 'prijava', pathMatch: 'full' },
-  { path: '**', redirectTo: 'prijava'}
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '**', redirectTo: 'login'}
 ];
 
 @NgModule({

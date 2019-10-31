@@ -8,6 +8,8 @@ import { Store } from '@ngrx/store';
 import { AppState, selectAuthState } from '../store/app.states';
 import { LogIn } from '../store/actions/auth.actions';
 import { Observable } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,11 +25,16 @@ export class LoginComponent implements OnInit {
   submitted: boolean | null;
   inFocus: boolean | null;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<AppState>, private auth: AuthService, public router: Router,
+  ) {
     this.getState = this.store.select(selectAuthState);
   }
 
   ngOnInit() {
+    if (this.auth.getToken()) {
+      this.router.navigateByUrl('/encoder');
+    }
+
     this.loginForm = new FormGroup({
       inputEmail: new FormControl('', [Validators.required, CommonValidators.isEmail]),
       inputPassword: new FormControl('', [Validators.required, ValidatePasswordLength, ValidatePasswordDigit])

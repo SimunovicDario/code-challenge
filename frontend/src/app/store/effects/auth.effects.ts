@@ -54,7 +54,7 @@ export class AuthEffects {
     LogOut: Observable<any> = this.actions.pipe(ofType(AuthActionTypes.LOGOUT),
         tap((user) => {
             localStorage.removeItem('token');
-            this.router.navigateByUrl('/prijava');
+            this.router.navigateByUrl('/login');
         }));
 
 

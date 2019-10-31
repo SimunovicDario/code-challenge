@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../store/app.states';
 import { LogOut } from '../store/actions/auth.actions';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,7 +11,7 @@ import { LogOut } from '../store/actions/auth.actions';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, public auth: AuthService) { }
 
   ngOnInit() {
   }

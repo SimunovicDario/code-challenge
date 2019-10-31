@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-dark">
     <span class="navbar-brand mb-0 h1">Code challenge</span>
     <span class="example-fill-remaining-space"></span>
-    <button type="button" class="text-light btn-dark btn-outline-dark" (click)="logOut()">Log out</button>
+    <button type="button" class="text-light btn-dark btn-outline-dark" *ngIf="auth.getToken()" (click)="logOut()">Log out</button>
 </nav>
   
