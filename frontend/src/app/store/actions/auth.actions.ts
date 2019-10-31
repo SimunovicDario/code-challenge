@@ -5,7 +5,6 @@ export enum AuthActionTypes {
     LOGIN = '[Auth] Login',
     LOGIN_SUCCESS = '[Auth] Login Success',
     LOGIN_FAILURE = '[Auth] Login Failure',
-    GET_ENCODER = '[Auth] GetEncoder'
 }
 
 export class LogIn implements Action {
@@ -23,12 +22,8 @@ export class LogInFailure implements Action {
     constructor(public payload: any) { }
 }
 
-export class GetEncoder implements Action {
-    readonly type = AuthActionTypes.GET_ENCODER;
-}
 
 export type All =
     | LogIn
     | LogInSuccess
-    | LogInFailure
-    | GetEncoder;
+    | LogInFailure;

@@ -14,7 +14,7 @@ export interface State {
 export const initialState: State = {
     isAuthenticated: false,
     user: null,
-    errorMessage: null
+    errorMessage: null,
 };
 
 export function reducer(state = initialState, action: All): State {
@@ -27,13 +27,13 @@ export function reducer(state = initialState, action: All): State {
                     token: action.payload.token,
                     email: action.payload.email
                 },
-                errorMessage: null
+                errorMessage: null,
             };
         }
         case AuthActionTypes.LOGIN_FAILURE: {
             return {
                 ...state,
-                errorMessage: 'Incorrect email and/or password.'
+                errorMessage: action.payload.error.errorMessage
             };
         }
         default: {

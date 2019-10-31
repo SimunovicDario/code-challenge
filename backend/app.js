@@ -13,9 +13,7 @@ app.use(express.json())
 app.post('/login', login)
 
 app.use(auth)
-app.get('/encoder', function(req, res) {
-    console.log("USPJEHHHHH");
-})
+
 app.post('/encoder', auth, encoder)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

@@ -20,9 +20,4 @@ export class AuthService {
     return this.http.post<User>(url, {email, password});
   }
 
-  getEncoder(): Observable<User> {
-    const url = this.BASE_URL + '/encoder';
-    return this.http.get<User>(url);
-  }
-
 }

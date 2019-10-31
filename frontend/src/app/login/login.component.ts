@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
-import { LoginService } from '../services/login.service';
 import { CommonValidators } from 'ng-validator';
 import { ValidatePasswordLength } from '../validators/passwordLength.validator';
 import { ValidatePasswordDigit } from '../validators/passwordDigit.validator';
 import { User } from '../models/user';
 import { Store } from '@ngrx/store';
-import { AppState } from '../store/app.states';
+import { AppState, selectAuthState } from '../store/app.states';
 import { LogIn } from '../store/actions/auth.actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -17,10 +17,13 @@ import { LogIn } from '../store/actions/auth.actions';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
-  errorMessage: string;
+  errorMessage: string | null;
+  getState: Observable<any>;
   user: User = new User();
 
-  constructor(private store: Store<AppState>, private loginService: LoginService) { }
+  constructor(private store: Store<AppState>) {
+    this.getState = this.store.select(selectAuthState);
+   }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
@@ -28,32 +31,17 @@ export class LoginComponent implements OnInit {
       inputPassword: new FormControl('', [Validators.required, ValidatePasswordLength, ValidatePasswordDigit])
     });
 
+    this.getState.subscribe((state) => {
+      this.errorMessage = state.errorMessage;
+    });
   }
 
   onSubmit(): void {
     const payload = {
-      email: this.user.email,
-      password: this.user.password
+      email: this.loginForm.get('inputEmail').value.toLowerCase(),
+      password: this.loginForm.get('inputPassword').value
     };
-    console.log(payload);
     this.store.dispatch(new LogIn(payload));
-  }
-
-  // original koji radi
-
-  onLogin() {
-    this.errorMessage = '';
-    const email = this.loginForm.get('inputEmail').value.toLowerCase();
-    const password = this.loginForm.get('inputPassword').value;
-    this.loginService.login(email, password)
-      .subscribe(data => {
-        this.user.email = email;
-        this.user.password = password;
-        this.user.token = data.token;
-      },
-        err => {
-          this.errorMessage = err.error;
-        });
   }
 
 }

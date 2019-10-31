@@ -1,1 +1,13 @@
-<p>encoder works!</p>
+<div>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        {{errorMessage}}
+    </div>
+    <p>Unesite tekst:</p>
+    <input type="text" [ngModel]="input" (ngModelChange)="input=$event.toUpperCase()" name="input"> 
+</div>
+<br>
+<button (click)="onSubmit(input)" [disabled]="input.length == 0">Submit</button>
+
+<div *ngIf="output">
+{{output}}
+</div>

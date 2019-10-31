@@ -10,6 +10,8 @@ import {
     AuthActionTypes,
     LogIn, LogInSuccess, LogInFailure,
 } from '../actions/auth.actions';
+import { AuthGuardService } from 'src/app/services/auth-guard.service';
+import { EncoderService } from 'src/app/services/encoder.service';
 
 @Injectable()
 export class AuthEffects {
@@ -27,13 +29,10 @@ export class AuthEffects {
         switchMap((payload) => {
             return this.authService.logIn(payload.email, payload.password).pipe(
                 map((user) => {
-                    console.log(user);
-                    console.log(payload);
                     return new LogInSuccess({ token: user.token, email: user.email });
                 }),
                 catchError((error) => {
-                    console.log(error);
-                    return of((new LogInFailure({ error })));
+                    return of(new LogInFailure(error));
                 }));
         }
 
@@ -49,14 +48,6 @@ export class AuthEffects {
     );
 
     @Effect({ dispatch: false })
-    LogInFailure: Observable<any> = this.actions.pipe(
-        ofType(AuthActionTypes.LOGIN_FAILURE)
-    );
-
-    @Effect({ dispatch: false })
-    GetEncoder: Observable<any> = this.actions.pipe(ofType(AuthActionTypes.GET_ENCODER),
-        switchMap(payload => {
-            return this.authService.getEncoder();
-        }));
+    LogInFailure: Observable<any> = this.actions.pipe(ofType(AuthActionTypes.LOGIN_FAILURE));
 
 }
